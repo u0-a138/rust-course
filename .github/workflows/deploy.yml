@@ -1,25 +1,32 @@
-name: Build mdbook
+name: Deploy mdbook to GitHub Pages
 
 on:
   push:
     branches: [ "main" ]
 
+# 设置 GITHUB_TOKEN 的权限
+permissions:
+  contents: write
+  pages: write
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install mdbook
         run: |
           curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.40/mdbook-v0.4.40-x86_64-unknown-linux-gnu.tar.gz | tar -xz
           sudo mv mdbook /usr/local/bin/
-      
+
       - name: Build book
         run: mdbook build
-      
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          name: book
-          path: book
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./book
+          publish_branch: gh-pages
