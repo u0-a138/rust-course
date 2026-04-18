@@ -1,0 +1,27 @@
+name: Build mdbook and push to dist repo
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install mdbook
+        run: |
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.40/mdbook-v0.4.40-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+          sudo mv mdbook /usr/local/bin/
+      
+      - name: Build book
+        run: mdbook build
+      
+      - name: Deploy to dist repo
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          personal_token: ${{ secrets.GH_PAT }}
+          external_repository: u0-a138/rust-notes-dist
+          publish_dir: ./book
+          publish_branch: main
