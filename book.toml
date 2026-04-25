@@ -10,8 +10,8 @@ src = "src"
 [output.html]
 additional-css = ["theme/style.css"]
 additional-js = ["assets/custom.js", "assets/bigPicture.js"]
-git-repository-url = "https://github.com/sunface/rust-course"
-edit-url-template = "https://github.com/sunface/rust-course/edit/main/{path}"
+git-repository-url = "https://github.com/u0-a138/rust-course"
+edit-url-template = "https://github.com/u0-a138/rust-course/edit/main/{path}"
 
 [output.html.playground]
 editable = true
